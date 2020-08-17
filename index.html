@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+
+    #drag1 {
+        width: 50px;
+        height: 50px;
+        border: 1px solid red;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+</style>
+<body>
+    <div id="drag1" draggable="true"></div>
+<script>
+
+    let div = document.getElementById('drag1');
+
+    div.onmousedown = function (e) {
+
+        let coords = getCoords(div);
+       let shiftX = e.pageX - coords.left;
+       let shiftY = e.pageY - coords.top;
+
+
+        function moveAt(e) {
+           div.style.left = e.pageX - shiftX + 'px';
+           div.style.top = e.pageY - shiftY  + 'px';
+       }
+
+       document.onmousemove = function (e) {
+            moveAt(e);
+       }
+
+       div.onmouseup = function () {
+           document.onmousemove = null;
+           div.onmouseup = null;
+       }
+        div.ondragstart = function () {
+            return false;
+        }
+
+        function getCoords(elem) {
+            let box = elem.getBoundingClientRect();
+
+            return {
+                top: box.top + pageYOffset,
+                left: box.left + pageXOffset
+            };
+
+        }
+    }
+
+
+
+
+</script>
+</body>
+</html>
